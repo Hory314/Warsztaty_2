@@ -1,6 +1,6 @@
 package pl.coderslab;
 
-public class Users
+public class User
 {
     private int id;
     private String username;
@@ -8,11 +8,11 @@ public class Users
     private String password;
     private Integer userGroupId;
 
-    public Users()
+    public User()
     {
     }
 
-    public Users(String username, String email, String password, int userGroupId)
+    public User(String username, String email, String password, int userGroupId)
     {
         this.username = username;
         this.email = email;
@@ -65,7 +65,7 @@ public class Users
         return userGroupId;
     }
 
-    public void setUserGroupId(int userGroupId)
+    public void setUserGroupId(Integer userGroupId)
     {
         this.userGroupId = userGroupId;
     }
@@ -73,6 +73,6 @@ public class Users
     @Override
     public String toString()
     {
-        return "Users{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email + '\'' + ", password='" + password + '\'' + ", userGroupId=" + userGroupId + '}';
+        return "User{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email + '\'' + ", password='" + password + '\'' + ", userGroupId=" + userGroupId + '}';
     }
 }
