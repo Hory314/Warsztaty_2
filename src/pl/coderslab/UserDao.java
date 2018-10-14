@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+// todo
+//Utwórz implementację dodatkowych metod realizujących zadania:
+//pobranie wszystkich członków danej grupy (dopisz metodę loadAllByGroupId do klasy User).
+
 public class UserDao
 {
     private static final String CREATE_USER_GROUP_QUERY = "INSERT INTO users (username, email, password, user_group_id) VALUES (?, ?, ?, ?);";

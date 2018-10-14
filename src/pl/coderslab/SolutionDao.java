@@ -8,6 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+//todo
+//Utwórz implementację dodatkowych metod realizujących zadania:
+//
+//        pobranie wszystkich rozwiązań danego użytkownika (dopisz metodę loadAllByUserId do klasy Solution),
+//        pobranie wszystkich rozwiązań danego zadania, posortowanych od najnowszego do najstarszego (dopisz metodę loadAllByExerciseId do klasy Solution),
 public class SolutionDao
 {
     private static final String CREATE_USER_GROUP_QUERY = "INSERT INTO solution (created, updated, description, exercise_id, users_id) VALUES (?, ?, ?, ?. ?);";
