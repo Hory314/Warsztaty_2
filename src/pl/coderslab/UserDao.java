@@ -65,7 +65,7 @@ public class UserDao
                     user.setId(rs.getInt("id"));
                     user.setUsername(rs.getString("username"));
                     user.setEmail(rs.getString("email"));
-                    user.setPassword(rs.getString("password"));
+                    user.setPasswordNoHashing(rs.getString("password"));
                     user.setUserGroupId(rs.getInt("user_group_id"));
                 }
             }
@@ -88,7 +88,7 @@ public class UserDao
                 user.setId(rs.getInt("id"));
                 user.setUsername(rs.getString("username"));
                 user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
+                user.setPasswordNoHashing(rs.getString("password"));
                 user.setUserGroupId(rs.getInt("user_group_id"));
                 userList.add(user);
             }

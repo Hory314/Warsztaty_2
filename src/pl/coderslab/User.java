@@ -1,5 +1,7 @@
 package pl.coderslab;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 public class User
 {
     private int id;
@@ -16,8 +18,13 @@ public class User
     {
         this.username = username;
         this.email = email;
-        this.password = password;
+        this.password = hashPassword(password); // ustawiaj zahashowane
         this.userGroupId = userGroupId;
+    }
+
+    private static String hashPassword(String password)
+    {
+        return BCrypt.hashpw(password, BCrypt.gensalt()); // ma zwracac zahashowane haslo
     }
 
     public int getId()
@@ -52,13 +59,19 @@ public class User
 
     public String getPassword()
     {
-        return password;
+        return password; // pobiera oczywiscie zahashowane bo takie bedzie trzymane tylko w obiekcie
     }
 
-    public void setPassword(String password)
+    public void setHashedPassword(String password)
+    {
+        this.password = hashPassword(password); // ustawiaj zahashowane
+    }
+
+    public void setPasswordNoHashing(String password)
     {
         this.password = password;
     }
+
 
     public Integer getUserGroupId()
     {

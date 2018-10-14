@@ -93,7 +93,7 @@ public class ProgrammingSchool
                 user.setId(id);
                 user.setUsername(username);
                 user.setEmail(email);
-                user.setPassword(password);
+                user.setHashedPassword(password);
             }
 
             UserDao.update(user);
@@ -140,7 +140,7 @@ public class ProgrammingSchool
         {
             user.setUsername(username);
             user.setEmail(email);
-            user.setPassword(password);
+            user.setHashedPassword(password);
         }
 
         UserDao.create(user);

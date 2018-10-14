@@ -7,17 +7,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserGroupDao
+public class ExerciseDao
 {
-    private static final String CREATE_USER_GROUP_QUERY = "INSERT INTO user_group (name) VALUES (?);";
-    private static final String DELETE_USER_GROUP_QUERY = "DELETE FROM user_group WHERE id = ?;";
-    private static final String SELECT_ALL_USER_GROUP_QUERY = "SELECT * FROM user_group;";
-    private static final String SELECT_USER_GROUP_QUERY = "SELECT * FROM user_group WHERE id = ?;";
-    private static final String UPDATE_USER_GROUP_QUERY = "UPDATE user_group SET name = ? WHERE id = ?;";
+    private static final String CREATE_USER_GROUP_QUERY = "INSERT INTO exercise (title, description) VALUES (?, ?);";
+    private static final String DELETE_USER_GROUP_QUERY = "DELETE FROM exercise WHERE id = ?;";
+    private static final String SELECT_ALL_USER_GROUP_QUERY = "SELECT * FROM exercise;";
+    private static final String SELECT_USER_GROUP_QUERY = "SELECT * FROM exercise WHERE id = ?;";
+    private static final String UPDATE_USER_GROUP_QUERY = "UPDATE exercise SET title = ?,description = ? WHERE id = ?;";
 
-    public UserGroup select(int id)
+    public static Exercise select(int id)
     {
-        UserGroup userGroup = new UserGroup();
+        Exercise exercise = new Exercise();
         try(Connection connection = DBUtil.getConnection(); PreparedStatement stmt = connection.prepareStatement(SELECT_USER_GROUP_QUERY);)
         {
             stmt.setInt(1, id); // rs w try() bo ustawiam to stmt.set...
@@ -25,8 +25,9 @@ public class UserGroupDao
             {
                 while(rs.next())
                 {
-                    userGroup.setId(rs.getInt("id"));
-                    userGroup.setName(rs.getString("name"));
+                    exercise.setId(rs.getInt("id"));
+                    exercise.setTitle(rs.getString("title"));
+                    exercise.setDescription(rs.getString("description"));
                 }
             }
         }
@@ -34,35 +35,38 @@ public class UserGroupDao
         {
             e.printStackTrace();
         }
-        return userGroup;
+        return exercise;
     }
 
-    public static List<UserGroup> selectAll()
+    public static List<Exercise> selectAll()
     {
-        List<UserGroup> userGroupList = new ArrayList<>();
+        List<Exercise> exerciseList = new ArrayList<>();
         try(Connection connection = DBUtil.getConnection(); PreparedStatement stmt = connection.prepareStatement(SELECT_ALL_USER_GROUP_QUERY); ResultSet rs = stmt.executeQuery();)
         {
             while(rs.next())
             {
-                UserGroup userGroup = new UserGroup();
-                userGroup.setId(rs.getInt("id"));
-                userGroup.setName(rs.getString("name"));
-                userGroupList.add(userGroup);
+                Exercise exercise = new Exercise();
+                exercise.setId(rs.getInt("id"));
+                exercise.setTitle(rs.getString("title"));
+                exercise.setDescription(rs.getString("description"));
+                exerciseList.add(exercise);
             }
         }
         catch(SQLException e)
         {
             e.printStackTrace();
         }
-        return userGroupList;
+        return exerciseList;
     }
 
-    public static UserGroup create(UserGroup userGroup)
+    public static Exercise create(Exercise exercise)
     {
         try(Connection connection = DBUtil.getConnection(); PreparedStatement stmt = connection.prepareStatement(CREATE_USER_GROUP_QUERY, PreparedStatement.RETURN_GENERATED_KEYS);)
         {
             //przygotowuje sety
-            stmt.setString(1, userGroup.getName());
+            stmt.setString(1, exercise.getTitle());
+            stmt.setString(2, exercise.getDescription());
+
             int result = stmt.executeUpdate();
 
             if(result != 1) // czyli jak jest błąd
@@ -74,8 +78,9 @@ public class UserGroupDao
             {
                 if(generatedKeys.first())
                 {
-                    userGroup.setId(generatedKeys.getInt(1));
-                    return userGroup;
+                    exercise.setId(generatedKeys.getInt(1));
+                    System.out.println("Zapisano pomyślnie.");
+                    return exercise;
                 }
                 else
                 {
@@ -91,7 +96,7 @@ public class UserGroupDao
     }
 
     // usuwanie po id
-    public static void delete(int id) // potem przeciążyć na (UserGroup userGroup)
+    public static void delete(int id)
     {
         try(Connection connection = DBUtil.getConnection(); PreparedStatement stmt = connection.prepareStatement(DELETE_USER_GROUP_QUERY);)
         {
@@ -112,18 +117,31 @@ public class UserGroupDao
         }
     }
 
-    public static void delete(UserGroup userGroup)
+    public static void delete(Exercise exercise)
     {
-       delete(userGroup.getId());
+        delete(exercise.getId());
     }
 
-    public void update(UserGroup userGroup)
+    public static void update(Exercise exercise)
     {
         try(Connection connection = DBUtil.getConnection(); PreparedStatement stmt = connection.prepareStatement(UPDATE_USER_GROUP_QUERY);)
         {
-            stmt.setInt(2, userGroup.getId());
-            stmt.setString(1, userGroup.getName());
-            stmt.executeUpdate();
+
+            stmt.setInt(3, exercise.getId());
+            //przygotowuje sety
+            stmt.setString(1, exercise.getTitle());
+            stmt.setString(2, exercise.getDescription());
+
+            int result = stmt.executeUpdate();
+
+            if(result != 1)
+            {
+                System.out.println("Nie ma nic do edycji.");
+            }
+            else
+            {
+                System.out.println("Zaktualizowano pomyślnie.");
+            }
         }
         catch(SQLException e)
         {
