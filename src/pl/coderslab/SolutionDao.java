@@ -20,7 +20,12 @@ public class SolutionDao
     private static final String SELECT_ALL_USER_GROUP_QUERY = "SELECT * FROM solution;";
     private static final String SELECT_USER_GROUP_QUERY = "SELECT * FROM solution WHERE id = ?;";
     private static final String UPDATE_USER_GROUP_QUERY = "UPDATE solution SET created = ?,updated = ?, description = ?, exercise_id = ?, users_id = ? WHERE id = ?;";
+    private static final String SELECT_ALL_SOLUTIONS_BY_USER_ID = "SELECT * FROM solution WHERE users_id = ?";
 
+    public static List<Solution> loadAllByUserId(int id)
+    {
+        return null; //todo
+    }
 
     public static Solution select(int id)
     {
